@@ -1,5 +1,6 @@
 package ie.atu.lab2;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,5 +29,28 @@ public class ProductController {
     public Product addProduct(@RequestBody Product newProduct){
         productList.add(newProduct);
         return newProduct;
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<List> updateProduct(@PathVariable String id, @RequestBody Product updatedProduct){
+        
+        for(Product p : productList){
+            if(p.getId().equals(id)){
+                productList.remove(p);
+            }
+        }
+        productList.add(updatedProduct);
+        return ResponseEntity.ok(productList);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<List> deleteProduct(@PathVariable String id){
+
+        for (Product p : productList){
+            if (p.getId().equals(id)){
+                productList.remove(p);
+            }
+        }
+        return ResponseEntity.ok(productList);
     }
 }
